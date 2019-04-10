@@ -1,0 +1,70 @@
+body {
+    background-image: url(field4.jpg);
+    background-repeat: no-repeat;
+    background-size: 110%;
+}
+
+h1 {
+    color: white;
+    background-color:darkgreen;
+    width: 300px;
+}
+
+#cleat, #sneaker {
+    width: 200px;
+    height:auto;
+}
+.runner {
+    width: 400px;
+    height: auto;
+}
+
+#bolt {
+    position: absolute;
+    left: 0px;
+    top: 60%;
+    height: 200px;
+    width: auto;
+    z-index: 1;
+}
+
+#ross {
+    position: absolute;
+    right: 0px;
+    top: 70%;
+    height: 200px;
+    width: auto;
+    z-index: 2;
+}
+
+#gun {
+    position: absolute;
+    left: 80%;
+    top: 20px;
+    height: 200px;
+    width: auto;
+}
+
+
+#winner {
+    position: absolute;
+    left:10%;
+    top:20px;
+    width: 80%;
+    height:auto;
+    z-index: 3;
+
+}
+#score {
+    position: absolute;
+    left: 25%;
+    top: 25%;
+    z-index: 4;
+    font-size: 9em;
+    font-family: 'digital-clock-font';
+    color: white;
+}
+@font-face{
+    font-family:'digital-clock-font';
+    src: url('DS-DIGIB.TTF');
+   }

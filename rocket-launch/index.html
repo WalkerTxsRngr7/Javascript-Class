@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rocket Launches</title>
+</head>
+<body>
+    <h2>Next 5 Launches</h2>
+        <div id="launches"></div>
+        
+        <button onclick="falcon()">Falcon Launches</button>
+        <button onclick="launcherone()">Launcherone Launches</button>
+        <button onclick="ariane()">Ariane Launches</button>
+        <button onclick="upcoming()">Upcoming Launches</button>
+    
+        <script>
+            var httpRequest = new XMLHttpRequest();
+
+            addEventListener("load", upcoming());
+
+            function printLaunches(){
+                document.getElementById('launches').innerHTML = "";
+                console.log(httpRequest.readyState);
+                if (httpRequest.readyState == 4 && httpRequest.status == 200){
+                    var jsObject = JSON.parse(httpRequest.responseText);
+                    console.log(jsObject);
+                    
+                    for (i=0;i<jsObject.launches.length;i++){
+                        document.getElementById('launches').innerHTML += jsObject.launches[i].name + "<br>" + jsObject.launches[i].windowstart + "<br><br>";
+                    }
+                }
+            }
+            httpRequest.onreadystatechange = printLaunches;
+            
+            function upcoming(){
+                httpRequest.open("get", "https://launchlibrary.net/1.4/launch/next/5");
+                httpRequest.send();
+            }
+
+            function falcon(){
+                httpRequest.open("get", "https://launchlibrary.net/1.4/launch/Falcon");
+                httpRequest.send();
+            }
+            function launcherone(){
+                httpRequest.open("get", "https://launchlibrary.net/1.4/launch/Launcherone");
+                httpRequest.send();
+            }
+            function ariane(){
+                httpRequest.open("get", "https://launchlibrary.net/1.4/launch/Ariane");
+                httpRequest.send();
+            }
+            
+        </script>
+    </body>
+    </html>
