@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    
+    <div id="vueApp">
+        {{message}}
+
+        <!-- v-bind assigns values to an attribute -->
+        <span v-bind:title="message">A simple idea</span>
+        <a v-bind:href="website">OTC</a>
+
+        <div v-if="seen">Now you see me!</div>
+
+        <ul>
+            <li v-for="list in todo">{{list.item}}</li>
+        </ul>
+
+        {{greeting("Stitch")}}
+
+        <button v-on:click="reverseMessage">Reverse the Message</button>
+
+        <!-- two way binding with v-model -->
+        <p>{{entry}}</p>
+        <input type="text" v-model="entry">
+    </div>
+
+
+
+    <script>
+        var app = new Vue({
+            el: "#vueApp",
+            data: {
+                message: "Hello World!",
+                website: "http://www.otc.edu",
+                seen: true,
+                todo: [
+                    {item: "Learn CSS & HTML"},
+                    {item: "Learn Javascript"},
+                    {item: "Learn Vue JS"}
+                ],
+                entry: "In the beginning......."
+            },
+            methods: {
+                greeting: function(name){
+                    return this.message + " " + name
+                },
+                reverseMessage: function(){
+                this.message = this.message.split(" ").reverse().join(" ");
+                }
+            }
+            
+        })
+    
+    </script>
+</body>
+</html>
