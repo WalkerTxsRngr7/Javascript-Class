@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="vueApp">
+        <ul>
+            <li v-for="item in items">Name: {{item.name}}<br> Ordered: {{item.ordered}}<br>Img: {{item.imgSrc}}</li>
+        </ul>
+
+    </div>
+
+    <script>
+    var app = new Vue({
+        el: "#vueApp",
+        data: {
+            items: [
+                {name: "Stitch", ordered: 0, imgSrc: "stitch.jpg"},
+                {name: "Dory", ordered: 0, imgSrc: "dory.png"}
+            ]
+        }
+    })
+    </script>
+</body>
+</html>
