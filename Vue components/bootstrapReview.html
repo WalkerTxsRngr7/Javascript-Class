@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="vueApp">
+        <div class="container">
+            <div class="row">
+
+                <card src='croft.jpg' title="Tomb Raider" button="TR" content="Laura Croft"></card>
+                <card src='dishonored2.jpg' title="Dishonored 2" button="D2" content="Emily Kaldwin"></card>
+                <card src='ellie.png' title="The Last Of Us" button="TLOU" content="Ellie"></card>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        Vue.component('card', {
+            props: ['src', 'title', 'button', 'content'],
+
+            template: `
+                <div class="card col-sm" style="width: 18rem;">
+                    <img v-bind:src="src" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{title}}</h5>
+                        <p class="card-text">{{content}}</p>
+                        <a href="#" class="btn btn-primary">{{button}}</a>
+                    </div>
+                </div>`
+        })
+
+        var app = new Vue({
+            el: "#vueApp",
+            data: {
+                message: "Message"
+            }
+        })
+    </script>
+</body>
+
+</html>
