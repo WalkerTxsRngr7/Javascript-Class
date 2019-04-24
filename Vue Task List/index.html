@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <h1>Task List</h1>
+    <div id="vueApp">
+        <form>
+            <h3>Enter Task</h3>
+            <input type="text" v-model='entry'>
+            <input type="button" value="Add" v-on:click='addTask(entry)'>
+            
+            <ul>
+                <li v-for="(tasks, index) in taskList" v-on:click='delTask(index)'>{{tasks.task}}</li>
+            </ul>
+
+            <p>Click on a task to delete it.</p>
+
+        </form>
+
+
+
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#vueApp",
+            data: {
+                taskList: [
+                    {task: "Task 1"},
+                    {task: "Task 2"}
+                ],
+                entry: ""
+            } ,
+            methods: {
+                addTask: function(tasks){
+                    this.taskList.push({task: tasks})
+                    this.entry = ""
+                },
+                delTask: function(index){
+                    Vue.delete(this.taskList, index)
+                }
+            }
+                
+        })
+    
+    
+    
+    </script>
+</body>
+</html>
