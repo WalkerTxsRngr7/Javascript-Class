@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Movies</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <h1 id='heading'>Movies</h1>
+    <div id="vueApp">
+        <div class="card-deck" id="deck">
+            <script>
+                //try this in vue methods
+                $(document).ready(function () {
+                    $("#heading").html("Card Deck")
+                    $.getJSON(
+                        "https://api.themoviedb.org/3/movie/now_playing?api_key=ab8a8893b0afa6fdc8643b146b27b9f3",
+                        function (movies) {
+                            $("#deck").html(movies);
+                            for (i = 0; i < 3; i++) {
+                                $("div#deck").append("<movie title='bob'></movie>")
+                            }
+                        })
+
+                })
+            </script>
+
+
+
+        </div>
+    </div>
+
+    <script>
+        Vue.component('movie', {
+            props: ['title', 'desc', 'image'],
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+            template: `<h2>Hello</h2>`
+                // <div class="card">
+                //     <img src="{{image}}" class="card-img-top" alt="...">
+                //     <div class="card-body">
+                //         <h5 class="card-title">{{title}}</h5>
+                //         <p class="card-text">{{desc}}</p>
+                //     </div>
+                // </div>`
+        })
+
+        var app = new Vue({
+            el: "#vueApp",
+            data: {
+
+            },
+            methods: {
+                
+            }
+        })
+    </script>
+    <script src="app.js"></script>
+</body>
+
+</html>
