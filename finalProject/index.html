@@ -17,66 +17,80 @@
     <div class="container">
         <div id="vueApp">
             <div class="card-deck" id="deck">
-                <div v-for="i in numMovies">
-                    <div class="card">
-                        <img v-bind:src='imageCall(i)' class="card-img-top" v-bind:alt='apiMovies[i-1].title'>
-                        <div class="card-body">
-                            <h5 class="card-title">{{apiMovies[i-1].title}}</h5>
-                            <p class="card-text">{{apiMovies[i-1].overview}}</p>
-                        </div>
+                <div class="card" v-for="i in numMovies">
+                    <img v-bind:src='imageCall(i)' class="card-img-top" v-bind:alt='apiMovies[i-1].title'>
+                    <div class="card-body">
+                        <h5 class="card-title">{{apiMovies[i-1].title}}</h5>
+                        <p class="card-text">{{apiMovies[i-1].overview}}</p>
+                        <button @click="adult(i)">Adult</button>
                     </div>
                 </div>
-
             </div>
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Movie</th>
+                        <th scope="col">Adult Tickets</th>
+                        <th scope="col">Children Tickets</th>
+                        <th scope="col">Subtotal</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id='cart'>
+
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 
 
     <script>
-        // $(document).ready(function () {
-        // $.getJSON(
-        //     "https://api.themoviedb.org/3/movie/now_playing?api_key=ab8a8893b0afa6fdc8643b146b27b9f3",
-        //     function (movies) {
-        var movies;
-        var httpRequest = new XMLHttpRequest();
-        
-        function apiCall(){
-            if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-            
-            httpRequest.open("get", "https://api.themoviedb.org/3/movie/now_playing?api_key=ab8a8893b0afa6fdc8643b146b27b9f3");
-            httpRequest.send();
-            movies = JSON.parse(httpRequest.responseText);
-            console.log("movies")
-            
-            var app = new Vue({
-            el: "#vueApp",
-            data: {
-                numMovies: 3,
-                apiMovies: movies.results,
-            },
-            methods: {
-                imageCall: function (i) {
-                    imageSrc = "https://image.tmdb.org/t/p/w500/" + this.apiMovies[
-                        i - 1].poster_path
-                    return imageSrc
-                }
-            }
+        $.getJSON(
+            "https://api.themoviedb.org/3/movie/now_playing?api_key=ab8a8893b0afa6fdc8643b146b27b9f3",
+            function (movies) {
+                var app = new Vue({
+                    el: "#vueApp",
+                    data: {
+                        numMovies: 3,
+                        apiMovies: movies.results,
+                    },
+                    methods: {
+                        imageCall: function (i) {
+                            imageSrc = "https://image.tmdb.org/t/p/w500/" + this.apiMovies[
+                                i - 1].poster_path
+                            return imageSrc
+                        },
+                        adult: function (i) {
+                            document.querySelector('#cart').innerHTML += "<tr>
+                            <th scope="row"></th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                        </tr>"
+                        }
+                    }
 
-        })
-        }
-        httpRequest.onreadystatechange = apiCall();
-        
-        }
-        
-        
-        // })
-        // })
+                })
+            })
     </script>
 
     <script src="app.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
     </script>
