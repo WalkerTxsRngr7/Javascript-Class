@@ -22,7 +22,9 @@
                     <div class="card-body">
                         <h5 class="card-title">{{apiMovies[i-1].title}}</h5>
                         <p class="card-text">{{apiMovies[i-1].overview}}</p>
-                        <button @click="adult(i)">Adult</button>
+                        <button @click="addAdult(i-1)">Adult</button>
+                        <button @click="addChild(i-1)">Child</button>
+                        <!-- " -->
                     </div>
                 </div>
             </div>
@@ -35,24 +37,18 @@
                         <th scope="col">Subtotal</th>
                         <th scope="col"></th>
                     </tr>
+
+                    <!-- <tr>
+                        <th scope='row'>${this.apiMovies[i].title}</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                    </tr> -->
                 </thead>
                 <tbody id='cart'>
-
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
 
@@ -66,6 +62,11 @@
                     data: {
                         numMovies: 3,
                         apiMovies: movies.results,
+                        adultT: 0,
+                        childT: 0,
+                        included: false,
+                        moviesInTable: [
+                        ]
                     },
                     methods: {
                         imageCall: function (i) {
@@ -73,14 +74,55 @@
                                 i - 1].poster_path
                             return imageSrc
                         },
-                        adult: function (i) {
-                            document.querySelector('#cart').innerHTML += "<tr>
-                            <th scope="row"></th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                        </tr>"
+                        addAdult: function (i) {
+                            this.adultT++
+                            console.log("i " + i)
+                            var mov = i
+                            console.log("mov " + mov)
+                            
+                            console.log(this.adultT)
+                            // console.log(this.moviesInTable)
+                            this.moviesTable(mov)
+                        },
+                        addChild: function (i) {
+                            this.childT++
+                            console.log("i " + i)
+                            var mov = i
+                            console.log("mov " + mov)
+                            
+                            console.log(this.childT)
+                            // console.log(this.moviesInTable)
+                            this.moviesTable(mov)
+                        },
+                        moviesTable: function (i) {
+                            console.log("i: " + i)
+                            this.moviesInTable.forEach(mov => {
+                                console.log("mov: " + i)
+                                if (mov == i){
+                                    this.included = true
+                                }
+                            })
+                            if (this.included) {
+                                if (this.adultT > 0){
+                                    document.querySelector(`#adult${i}`).innerHTML = `${this.adultT}`
+                                }
+                                if (this.childT > 0){
+                                    document.querySelector(`#child${i}`).innerHTML = `${this.childT}`
+                                }
+                                
+                            } else {
+                                this.moviesInTable.push(i)
+                                document.querySelector('#cart').innerHTML += `
+                                    <tr>
+                                        <th scope='row'>${this.apiMovies[i].title}</th>
+                                        <td id='adult${i}'>${(this.adultT > 0? this.adultT: "")}</td>
+                                        <td id='child${i}'>${(this.childT > 0? this.childT: "")}</td>
+                                        <td>@mdo</td>
+                                        <td>@mdo</td>
+                                    </tr>`
+                            }
+                            this.included = false
+
                         }
                     }
 
