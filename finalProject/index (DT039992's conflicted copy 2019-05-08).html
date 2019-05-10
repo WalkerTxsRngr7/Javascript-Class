@@ -62,11 +62,11 @@
                     data: {
                         numMovies: 3,
                         apiMovies: movies.results,
-                        adultT: [
-                            //multidimensional array for separate counters
-                        ],
+                        adultT: 0,
+                        childT: 0,
                         included: false,
-                        moviesInTable: []
+                        moviesInTable: [
+                        ]
                     },
                     methods: {
                         imageCall: function (i) {
@@ -75,85 +75,53 @@
                             return imageSrc
                         },
                         addAdult: function (i) {
-                            if (this.adultT.length == 0) {
-                                for (j = 0; j < this.numMovies; j++) {
-                                    this.adultT.push([0, 0])
-                                    // this.adultT.push([0,1])
-                                    console.log("Added Movie " + j)
-                                }
-                            }
-
-                            console.log(this.adultT)
-                            // console.log("Adult Tickets" + this.adultT[i][0])
-                            // this.adultT.push([i][0])
-                            // this.adultT[i][0]
-                            var tickets = this.adultT[i][0]
-                            tickets++
-                            console.log("Tickets " + tickets)
-                            this.adultT[i][0] = tickets
-                            console.log("Adult Tickets " + this.adultT[i][0])
+                            this.adultT++
                             console.log("i " + i)
                             var mov = i
-                            console.log("mov " + i)
-
-
+                            console.log("mov " + mov)
+                            
+                            console.log(this.adultT)
                             // console.log(this.moviesInTable)
-                            this.moviesTable(i)
+                            this.moviesTable(mov)
                         },
                         addChild: function (i) {
-                            if (this.adultT.length == 0) {
-                                for (j = 0; j < this.numMovies; j++) {
-                                    this.adultT.push([0, 0])
-                                    // this.adultT.push([0,1])
-                                }
-                            }
-
-                            console.log(this.adultT)
-                            console.log("Child " + this.adultT[i][1])
-                            // this.adultT.push([i][0])
-                            // this.adultT[i][0]
-                            var tickets = this.adultT[i][1]
-                            tickets++
-                            this.adultT[i][1] = tickets
-                            console.log("tickets " + this.adultT[i][1])
+                            this.childT++
                             console.log("i " + i)
                             var mov = i
-                            console.log("mov " + i)
-
-
+                            console.log("mov " + mov)
+                            
+                            console.log(this.childT)
                             // console.log(this.moviesInTable)
-                            this.moviesTable(i)
+                            this.moviesTable(mov)
                         },
                         moviesTable: function (i) {
                             console.log("i: " + i)
                             this.moviesInTable.forEach(mov => {
                                 console.log("mov: " + i)
-                                if (mov == i) {
+                                if (mov == i){
                                     this.included = true
                                 }
                             })
-                            if (this.included == false) {
-                                console.log("not included")
+                            if (this.included) {
+                                if (this.adultT > 0){
+                                    document.querySelector(`#adult${i}`).innerHTML = `${this.adultT}`
+                                }
+                                if (this.childT > 0){
+                                    document.querySelector(`#child${i}`).innerHTML = `${this.childT}`
+                                }
+                                
+                            } else {
                                 this.moviesInTable.push(i)
                                 document.querySelector('#cart').innerHTML += `
                                     <tr>
                                         <th scope='row'>${this.apiMovies[i].title}</th>
-                                        <td id='adult${i}'></td>
-                                        <td id='child${i}'></td>
+                                        <td id='adult${i}'>${(this.adultT > 0? this.adultT: "")}</td>
+                                        <td id='child${i}'>${(this.childT > 0? this.childT: "")}</td>
                                         <td>@mdo</td>
                                         <td>@mdo</td>
                                     </tr>`
-                            } else {
-                                this.included = false
                             }
-                            if (this.adultT[i][0] > 0) {
-                                document.querySelector(`#adult${i}`).innerHTML = `${this.adultT[i][0]}`
-                            }
-                            if (this.adultT[i][1] > 0) {
-                                document.querySelector(`#child${i}`).innerHTML = `${this.adultT[i][1]}`
-                            }
-
-                            
+                            this.included = false
 
                         }
                     }
