@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-borderless table-dark">
+            <table class="table table-borderless table-dark" style='display: none;'>
                 <thead>
                     <tr>
                         <th scope="col">Movie</th>
@@ -49,10 +49,12 @@
                     <tr v-for='i in numMovies' style='display:none;' v-bind:id="'tr' + (i-1)">
                         <th scope='row'>{{apiMovies[i-1].title}}</th>
                         <td v-bind:id="'adult' + (i-1)" v-bind:style="[rowStyles]">
-                            <p style='display:inline; margin: 0px 30px;'  v-bind:id="'aTix' + (i-1)"></p><button class='btn btn-outline-warning' @click='delAdultVue((i-1), 0)'>-</button>
+                            <p style='display:inline; margin: 0px 30px;' v-bind:id="'aTix' + (i-1)"></p><button
+                                class='btn btn-outline-warning' @click='delAdultVue((i-1), 0)'>-</button>
                         </td>
                         <td v-bind:id="'child' + (i-1)">
-                            <p style='display:inline; margin: 0px 30px;' v-bind:id="'cTix' + (i-1)"></p><button class='btn btn-outline-warning' @click='delAdultVue((i-1), 1)'>-</button>
+                            <p style='display:inline; margin: 0px 30px;' v-bind:id="'cTix' + (i-1)"></p><button
+                                class='btn btn-outline-warning' @click='delAdultVue((i-1), 1)'>-</button>
                         </td>
                         <td>@mdo</td>
                         <td><button class='btn btn-outline-danger' @click='remove(i-1)'>Remove</button></td>
@@ -92,15 +94,11 @@
                             if (this.adultT.length == 0) {
                                 for (j = 0; j < this.numMovies; j++) {
                                     this.adultT.push([0, 0])
-                                    // this.adultT.push([0,1])
                                     console.log("Added Movie " + j)
                                 }
                             }
 
                             console.log(this.adultT)
-                            // console.log("Adult Tickets" + this.adultT[i][0])
-                            // this.adultT.push([i][0])
-                            // this.adultT[i][0]
                             var tickets = this.adultT[i][t]
                             tickets++
                             console.log("Tickets " + tickets)
@@ -109,104 +107,74 @@
                             console.log("i " + i)
                             var mov = i
                             console.log("mov " + i)
-
-
-                            // console.log(this.moviesInTable)
-                            this.moviesTable(i)
-                        },
-                        addChild: function (i) {
-                            if (this.adultT.length == 0) {
-                                for (j = 0; j < this.numMovies; j++) {
-                                    this.adultT.push([0, 0])
-                                    // this.adultT.push([0,1])
-                                }
+                            console.log("included " + i + this.included)
+                            this.included = false;
+                            for (var j = 0; j < this.moviesInTable.length; j++) {
+                                    if (this.moviesInTable[j] == i) {
+                                        this.included = true
+                                    }
+                            }
+                            if (this.included == false) {
+                                this.moviesInTable.push(i)
+                                this.included = true
                             }
 
-                            console.log(this.adultT)
-                            console.log("Child " + this.adultT[i][1])
-                            // this.adultT.push([i][0])
-                            // this.adultT[i][0]
-                            var tickets = this.adultT[i][1]
-                            tickets++
-                            this.adultT[i][1] = tickets
-                            console.log("tickets " + this.adultT[i][1])
-                            console.log("i " + i)
-                            var mov = i
-                            console.log("mov " + i)
-
-
-                            // console.log(this.moviesInTable)
+                            document.querySelector(`.table`).style = "display: table;"
                             this.moviesTable(i)
                         },
                         moviesTable: function (i) {
-                            console.log("i: " + i)
-                            // this.moviesInTable.forEach(mov => {
-                            //     console.log("mov: " + i)
-                            //     if (mov == i) {
-                            //         this.included = true
-                            //     }
-                            // })
-                            // if (this.included == false) {
-                            //     console.log("not included")
-                            //     this.moviesInTable.push(i)
-                            //     document.querySelector('#cart').innerHTML += `
-                            //         <tr>
-                            //             <th scope='row'>${this.apiMovies[i].title}</th>
-                            //             <td id='adult${i}'></td>
-                            //             <td id='child${i}'></td>
-                            //             <td>@mdo</td>
-                            //             <td><button>Remove</button></td>
-                            //         </tr>`
-                            // } else {
-                            //     this.included = false
-                            // }
                             document.querySelector(`#aTix${i}`).innerHTML = `${this.adultT[i][0]}`
                             document.querySelector(`#cTix${i}`).innerHTML = `${this.adultT[i][1]}`
-
+                            console.log("MovTab " + this.moviesInTable.length)
+                            console.log("included " + this.included + i)
                             if (this.adultT[i][0] == 0 && this.adultT[i][1] == 0) {
                                 document.querySelector(`#tr${i}`).style = "display: none;"
+                                for (var j = 0; j < this.moviesInTable.length; j++) {
+                                    if (this.moviesInTable[j] == i) {
+                                        this.moviesInTable.splice(j, 1);
+                                        this.moviesInTable.sort();
+                                        console.log("sorted")
+                                    }
+                                    console.log("moviesInTable...")
+                                    console.log(this.moviesInTable)
+                                }
+                                this.included = false
                             } else {
                                 document.querySelector(`#tr${i}`).style = "display: table-row;"
                             }
-                            
+                            if (this.moviesInTable.length == 0) {
+                                document.querySelector(`.table`).style = "display: none;"
+                            }
+                            // else {
+                            //     document.querySelector(`.table`).style = "display: table;"
+                            // }
                             console.log("adult: " + this.adultT[i][0])
                             if (this.adultT[i][0] > 0) {
                                 console.log("adult visibility" + i)
                                 document.querySelector(`#adult${i}`).style = "visibility: visible;"
-                                // this.rowStyles.visibility = 'visible'
-                                // <button @click='delAdult(${i}, 0)'>-</button>
-
-                                // var app = document.querySelector(`#adult${i}`)
-                                // var button = ``
-                                // saferInnerHTML(app, button, true);
-
                             } else {
-                                // this.rowStyles.visibility = 'hidden'
                                 document.querySelector(`#adult${i}`).style = "visibility: hidden;"
                             }
                             if (this.adultT[i][1] > 0) {
                                 console.log("child visibility" + i)
-                                // this.rowStyles.visibility = 'visible'
                                 document.querySelector(`#child${i}`).style = "visibility: visible;"
                             } else {
-                                // this.rowStyles.visibility = 'hidden'
                                 document.querySelector(`#child${i}`).style = "visibility: hidden;"
                             }
                         },
                         delAdultVue: function (i, t) {
                             console.log("Del function. i: " + i + " t: " + t)
-                            // console.log(this.adultT)
-                            // console.log(this.adultT[i][t])
                             this.adultT[i][t] = this.adultT[i][t] - 1
                             console.log("New Ticket: " + this.adultT[i][t])
                             this.moviesTable(i)
                         },
-                        remove: function(i) {
+                        remove: function (i) {
                             this.adultT[i][0] = 0
                             this.adultT[i][1] = 0
-                            document.querySelector(`#tr${i}`).style = "display: none;"
+                            // document.querySelector(`#tr${i}`).style = "display: none;"
                             console.log(this.adultT[i][0])
                             console.log(this.adultT[i][1])
+                            this.moviesTable(i)
                         }
                     }
 
