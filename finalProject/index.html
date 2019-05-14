@@ -43,10 +43,16 @@
                         <td>Mark</td>
                         <td>Otto</td>
                         <td>@mdo</td>
-                        <td>@mdo</td>
                     </tr> -->
                 </thead>
                 <tbody id='cart'>
+                    <tr v-for='i in numMovies' style='display:none;' v-bind:id="'tr' + (i-1)">
+                        <th scope='row'>{{apiMovies[i-1].title}}</th>
+                        <td  v-bind:id="'adult' + (i-1)"></td>
+                        <td v-bind:id="'child' + (i-1)"></td>
+                        <td>@mdo</td>
+                        <td><button>Remove</button></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -54,10 +60,10 @@
 
 
     <script>
-        $.getJSON(
+        var call = $.getJSON(
             "https://api.themoviedb.org/3/movie/now_playing?api_key=ab8a8893b0afa6fdc8643b146b27b9f3",
             function (movies) {
-                var app = new Vue({
+                var vue = new Vue({
                     el: "#vueApp",
                     data: {
                         numMovies: 3,
@@ -141,25 +147,46 @@
                                         <td id='adult${i}'></td>
                                         <td id='child${i}'></td>
                                         <td>@mdo</td>
-                                        <td>@mdo</td>
+                                        <td><button>Remove</button></td>
                                     </tr>`
                             } else {
                                 this.included = false
                             }
                             if (this.adultT[i][0] > 0) {
-                                document.querySelector(`#adult${i}`).innerHTML = `${this.adultT[i][0]}`
+                                var template =
+                                    `${this.adultT[i][0]} <button onclick='delAdult(${i}, 0)'>-</button>`
+                                document.querySelector(`#adult${i}`).innerHTML = template
+
+                                // <button @click='delAdult(${i}, 0)'>-</button>
+
+                                // var app = document.querySelector(`#adult${i}`)
+                                // var button = ``
+                                // saferInnerHTML(app, button, true);
+
+                            } else {
+                                document.querySelector(`#adult${i}`).innerHTML = ""
                             }
                             if (this.adultT[i][1] > 0) {
                                 document.querySelector(`#child${i}`).innerHTML = `${this.adultT[i][1]}`
                             }
-
-                            
-
+                        },
+                        delAdultVue: function () {
+                            console.log("Del function")
+                            this.adultT[i][t] = this.adultT[i][t] - 1
+                            console.log("New Ticket: " + this.adultT[i][t])
                         }
                     }
 
                 })
+
             })
+
+        function delAdult(i, t) {
+            console.log("Del function. i: " + i + " t: " + t)
+            console.log(Vue.adultT)
+            this.call.vue.adultT[i][t] = this.vue.adultT[i][t] - 1
+            console.log("New Ticket: " + this.vue.adultT[i][t])
+        }
     </script>
 
     <script src="app.js"></script>
@@ -171,6 +198,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/saferInnerHTML@1/dist/saferInnerHTML.polyfills.min.js">
+    </script>
+
 </body>
 
 </html>
