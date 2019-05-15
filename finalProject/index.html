@@ -10,21 +10,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- uncomment for secret! -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
 
 <body>
-    <h1 id='heading'>Movies</h1>
     <div class="container">
         <div id="vueApp">
             <div class="card-deck" id="deck">
-                <div class="card" v-for="i in numMovies">
+                <div class="card imgBx" v-for="i in numMovies">
                     <img v-bind:src='imageCall(i)' class="card-img-top" v-bind:alt='apiMovies[i-1].title'>
+                    <!-- uncomment for secret! -->
+                    <!-- <img src="noise.png"> -->
                     <div class="card-body">
                         <h5 class="card-title">{{apiMovies[i-1].title}}</h5>
                         <p class="card-text">{{apiMovies[i-1].overview}}</p>
                         <button class='btn btn-dark' @click="addAdult((i-1), 0)">Adult</button>
                         <button class='btn btn-dark' @click="addAdult((i-1), 1)">Child</button>
-                        <!-- " -->
                     </div>
                 </div>
             </div>
@@ -49,18 +51,20 @@
                             <p style='display:inline; margin: 0px 30px;' v-bind:id="'cTix' + (i-1)"></p>
                             <button class='btn btn-outline-warning' @click='delAdultVue((i-1), 1)'>-</button>
                         </td>
-                        <td><p v-bind:id="'sub' + (i-1)"></p></td>
+                        <td>
+                            <p v-bind:id="'sub' + (i-1)"></p>
+                        </td>
                         <td><button class='btn btn-outline-danger' @click='remove(i-1)'>Remove</button></td>
                     </tr>
                     <tr>
-                            <th scope='row'></th>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>Total</td>
-                            <td>${{total}}</td>
-                        </tr>
+                        <th scope='row'></th>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>Total</td>
+                        <td>${{total}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -107,9 +111,9 @@
                             this.adultT[i][t] = tickets
                             this.included = false;
                             for (var j = 0; j < this.moviesInTable.length; j++) {
-                                    if (this.moviesInTable[j] == i) {
-                                        this.included = true
-                                    }
+                                if (this.moviesInTable[j] == i) {
+                                    this.included = true
+                                }
                             }
                             if (this.included == false) {
                                 this.moviesInTable.push(i)
@@ -120,9 +124,12 @@
                             this.moviesTable(i)
                         },
                         moviesTable: function (i) {
-                            this.subtotal[i] = +((this.price[0]*this.adultT[i][0]) + (this.price[1]*this.adultT[i][1])).toFixed(2)
-                            document.querySelector(`#aTix${i}`).innerHTML = `${this.adultT[i][0]}&nbsp&nbsp&nbsp*&nbsp&nbsp&nbsp$${this.price[0]}`
-                            document.querySelector(`#cTix${i}`).innerHTML = `${this.adultT[i][1]}&nbsp&nbsp&nbsp*&nbsp&nbsp&nbsp$${this.price[1]}`
+                            this.subtotal[i] = +((this.price[0] * this.adultT[i][0]) + (this.price[1] *
+                                this.adultT[i][1])).toFixed(2)
+                            document.querySelector(`#aTix${i}`).innerHTML =
+                                `${this.adultT[i][0]}&nbsp&nbsp&nbsp*&nbsp&nbsp&nbsp$${this.price[0]}`
+                            document.querySelector(`#cTix${i}`).innerHTML =
+                                `${this.adultT[i][1]}&nbsp&nbsp&nbsp*&nbsp&nbsp&nbsp$${this.price[1]}`
                             document.querySelector(`#sub${i}`).innerHTML = `$${this.subtotal[i]}`
                             if (this.adultT[i][0] == 0 && this.adultT[i][1] == 0) {
                                 document.querySelector(`#tr${i}`).style = "display: none;"
@@ -149,10 +156,10 @@
                             } else {
                                 document.querySelector(`#child${i}`).style = "visibility: hidden;"
                             }
-                            
+
                             //total 
                             this.total = 0
-                            for (j = 0; j < this.numMovies; j++){
+                            for (j = 0; j < this.numMovies; j++) {
                                 this.total = this.subtotal[j] + this.total
                             }
                             this.total = this.total.toFixed(2)
